@@ -39,8 +39,8 @@ app.post('/hello', (req, res) => {
     first_name,
     last_name,
     Email,
-    Confirm_email,
     Mobile_number,
+    Confirm_email,
     street,
     Apt,
     city,
@@ -56,19 +56,40 @@ app.post('/hello', (req, res) => {
         res.status(500).send('Internal Server Error');
         return;
       }
-  
+      const insertQuery = `
+      INSERT INTO userInfo 
+      (first_name, last_name, Email, Confirm_email, Mobile_number, street, Apt, city, State, Pincode, Country, comments) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
       // Execute query to fetch the database name
-      connection.query('SELECT DATABASE() AS dbName', (error, results) => {
-        connection.release(); // Release the connection
-  
-        if (error) {
-          console.error('Error executing query:', error);
-          res.status(500).send('Internal Server Error');
+     // Insert the form data into the table
+    connection.query(
+      insertQuery,
+      [
+        first_name,
+        last_name,
+        Email,
+        Confirm_email,
+        Mobile_number,
+        street,
+        Apt,
+        city,
+        State,
+        Pincode,
+        Country,
+        comments
+      ],
+      (queryErr, results) => {
+        // Release the connection back to the pool
+        connection.release();
+
+        if (queryErr) {
+          console.error('Error inserting data:', queryErr);
+          res.status(500).send('Error inserting data');
           return;
         }
-  
-        const dbName = results[0].dbName;
-        res.send(`Database name is: ${dbName}`);
+
+        res.status(200).send('Data inserted successfully!');
       });
     });
 });
