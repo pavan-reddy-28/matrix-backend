@@ -19,7 +19,7 @@ const pool = mysql.createPool({
 
 
 
-app.get('/hello', (req, res) => {
+app.post('/hello', (req, res) => {
 
   const {
     first_name,
