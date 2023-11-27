@@ -20,6 +20,35 @@ const pool = mysql.createPool({
 
 
 app.get('/hello', (req, res) => {
+
+  const {
+    first_name,
+    last_name,
+    Email,
+    Confirm_email,
+    Mobile_number,
+    street,
+    Apt,
+    city,
+    State,
+    Pincode,
+    Country,
+    comments
+  } = req.body;
+  console.log("data : ", {
+    first_name,
+    last_name,
+    Email,
+    Confirm_email,
+    Mobile_number,
+    street,
+    Apt,
+    city,
+    State,
+    Pincode,
+    Country,
+    comments
+  } )
     // Get the database name from the RDS instance
     pool.getConnection((err, connection) => {
       if (err) {
