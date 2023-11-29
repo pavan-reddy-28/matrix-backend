@@ -50,7 +50,11 @@ app.post('/hello', (req, res) => {
     comments
   } )
     // Get the database name from the RDS instance
-    const uniqueID = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.createHash('sha256').update(Email).digest('hex');
+
+  // Take a portion of the hash or manipulate it to form a unique ID
+    const uniqueID = hash.slice(0, 8); 
+  
     const params = {
       TableName: 'matrixUserInfoDynamo',
       Item: {
