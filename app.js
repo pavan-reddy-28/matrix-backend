@@ -16,7 +16,7 @@ AWS.config.update({
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
-const uniqueID = crypto.randomBytes(16).toString('hex');
+
 
 
 app.post('/hello', (req, res) => {
@@ -50,6 +50,7 @@ app.post('/hello', (req, res) => {
     comments
   } )
     // Get the database name from the RDS instance
+    const uniqueID = crypto.randomBytes(16).toString('hex');
     const params = {
       TableName: 'matrixUserInfoDynamo',
       Item: {
